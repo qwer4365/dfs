@@ -1,0 +1,54 @@
+{
+  "name": "Telegram Echo Bot",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ]
+      },
+      "id": "Telegram Trigger",
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1,
+      "position": [300, 300],
+      "credentials": {
+        "telegramApi": {
+          "id": "1",
+          "name": "Telegram API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{$json[\"message\"][\"chat\"][\"id\"]}}",
+        "text": "={{$json[\"message\"][\"text\"] || \"\"}}"
+      },
+      "id": "Telegram Send",
+      "name": "Telegram Send",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [600, 300],
+      "credentials": {
+        "telegramApi": {
+          "id": "1",
+          "name": "Telegram API"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Telegram Send",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
